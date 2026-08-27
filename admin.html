@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>طلبات العملاء | نبض</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+        :root { --navy: #172b3a; --blue: #2374a7; --sky: #eaf5fb; --muted: #71808a; --line: #e3eaee; }
+        * { box-sizing: border-box; } body { margin: 0; min-height: 100vh; background: #f8fbfc; color: var(--navy); font-family: 'Cairo', sans-serif; }
+        header { background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 6px 24px rgba(23,43,58,.06); } .header-inner, main { width: min(1100px, calc(100% - 32px)); margin: auto; } .header-inner { display: flex; align-items: center; justify-content: space-between; min-height: 82px; gap: 14px; }
+        .brand { font-weight: 800; font-size: 1.2rem; } .brand-mark { display: inline-grid; width: 38px; height: 38px; margin-left: 8px; place-items: center; color: #fff; background: var(--blue); border-radius: 12px 12px 4px 12px; } .back { padding: 9px 14px; color: var(--blue); background: var(--sky); border-radius: 8px; text-decoration: none; font-size: .78rem; font-weight: 700; }
+        main { padding: 40px 0 70px; } h1 { margin: 0 0 6px; font-size: clamp(1.5rem, 3vw, 2.1rem); } .subtext, #status { color: var(--muted); font-size: .82rem; } #status { min-height: 24px; margin: 14px 0; } .orders { display: grid; gap: 12px; }
+        .order { padding: 18px; background: #fff; border: 1px solid var(--line); border-radius: 12px; box-shadow: 0 8px 20px rgba(23,43,58,.05); } .order-head { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding-bottom: 10px; border-bottom: 1px solid var(--line); } .customer { font-weight: 800; } .phone { color: var(--blue); font-size: .8rem; } .date { color: var(--muted); font-size: .72rem; white-space: nowrap; } .items { margin: 12px 0; color: var(--muted); font-size: .8rem; line-height: 1.9; } .total { color: var(--blue); font-weight: 800; font-size: .9rem; }
+        button { padding: 9px 14px; color: #fff; background: var(--blue); border: 0; border-radius: 8px; cursor: pointer; font: inherit; font-size: .78rem; font-weight: 700; }
+        @media (max-width: 550px) { .order-head { align-items: flex-start; flex-direction: column; } .date { white-space: normal; } }
+    </style>
+</head>
+<body>
+    <header><div class="header-inner"><div class="brand"><span class="brand-mark">ن</span> طلبات العملاء</div><a class="back" href="index.html">العودة إلى القائمة</a></div></header>
+    <main><h1>الطلبات الواردة</h1><p class="subtext">تظهر الطلبات الجديدة عند الاتصال بقاعدة Supabase.</p><p id="status" aria-live="polite">جاري تحميل الطلبات...</p><div class="orders" id="orders"></div><button id="refresh" type="button">تحديث الطلبات</button></main>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script>
+        const status = document.querySelector('#status'); const ordersElement = document.querySelector('#orders');
+        const configured = supabaseUrl && supabaseAnonKey && !supabaseUrl.includes('ضع-') && !supabaseAnonKey.includes('ضع-');
+        const formatDate = (order) => { const value = new Date(order.created_at); return Number.isNaN(value.getTime()) ? 'بدون تاريخ' : value.toLocaleString('ar-DZ'); };
+        const renderOrders = (orders) => { ordersElement.innerHTML = ''; if (!orders.length) { status.textContent = 'لا توجد طلبات حتى الآن.'; return; } status.textContent = `عدد الطلبات: ${orders.length}`; orders.forEach((order) => { const items = (order.items || []).map((item) => `${item.name || item.sugar || ''} ${item.flavor || item.size || ''} × ${item.quantity}`).join('، '); const article = document.createElement('article'); article.className = 'order'; article.innerHTML = `<div class="order-head"><div><div class="customer"></div><div class="phone"></div></div><time class="date"></time></div><div class="items"></div><div class="total">الإجمالي: ${Number(order.total || 0)} DA</div>`; article.querySelector('.customer').textContent = order.customer_name || 'بدون اسم'; article.querySelector('.phone').textContent = order.phone || 'بدون رقم'; article.querySelector('.date').textContent = formatDate(order); article.querySelector('.items').textContent = items || 'بدون تفاصيل'; ordersElement.append(article); }); };
+        const loadOrders = async () => { if (!configured) { status.textContent = 'أضف إعدادات Supabase في supabase-config.js أولًا.'; return; } try { const { data, error } = await supabaseClient.from('orders').select('*').order('created_at', { ascending: false }); if (error) throw error; renderOrders(data || []); } catch (error) { status.textContent = 'تعذر تحميل الطلبات. تحقق من إعداد Supabase وسياسة القراءة.'; console.error(error); } };
+        document.querySelector('#refresh').addEventListener('click', loadOrders); loadOrders();
+    </script>
+</body>
+</html>

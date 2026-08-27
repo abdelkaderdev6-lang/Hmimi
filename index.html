@@ -1,0 +1,1214 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>الرئيسية</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;800&display=swap');
+
+        :root {
+            --navy: #172b3a;
+            --blue: #2374a7;
+            --sky: #eaf5fb;
+            --gold: #e5a93d;
+            --muted: #71808a;
+            --line: #e3eaee;
+        }
+
+        * { box-sizing: border-box; }
+        body { position: relative; margin: 0; min-height: 100vh; background: #f8fbfc url('noot.png') center 28% / cover fixed no-repeat; color: var(--navy); font-family: 'Cairo', sans-serif; }
+        body::before { position: fixed; inset: 0; z-index: 0; background: rgba(248, 251, 252, .38); content: ''; pointer-events: none; }
+        body > * { position: relative; z-index: 1; }
+        .site-header { background: #fff; border-bottom: 1px solid var(--line); box-shadow: 0 6px 24px rgba(23, 43, 58, .06); }
+        .header-inner { display: flex; align-items: center; gap: 34px; width: min(1180px, calc(100% - 48px)); min-height: 86px; margin: auto; }
+        .brand { display: inline-flex; align-items: center; gap: 10px; color: var(--navy); font-size: 1.25rem; font-weight: 800; text-decoration: none; white-space: nowrap; }
+        .brand-mark { display: grid; width: 40px; height: 40px; place-items: center; color: #fff; background: var(--blue); border-radius: 12px 12px 4px 12px; font-size: 1.15rem; box-shadow: 5px 5px 0 #d9edf8; }
+        .work-hours { display: inline-flex; align-items: center; gap: 12px; padding-right: 30px; border-right: 1px solid var(--line); }
+        .clock { display: grid; width: 38px; height: 38px; place-items: center; color: var(--gold); background: #fff8e9; border-radius: 50%; font-size: 1.2rem; }
+        .hours-label { display: block; margin-bottom: 1px; color: var(--muted); font-size: .72rem; font-weight: 600; }
+        .hours-value { display: block; color: var(--navy); font-size: .78rem; font-weight: 700; white-space: nowrap; }
+        .header-nav { display: flex; gap: 24px; margin-right: auto; }
+        .header-nav a { color: var(--muted); font-size: .85rem; font-weight: 700; text-decoration: none; transition: color .2s ease; }
+        .header-nav a:hover { color: var(--blue); }
+        .header-actions { display: flex; align-items: center; gap: 12px; }
+        .language { position: relative; }
+        .language-button { display: inline-flex; align-items: center; gap: 7px; height: 42px; padding: 0 13px; color: var(--navy); background: #fff; border: 1px solid var(--line); border-radius: 10px; cursor: pointer; font: inherit; font-size: .8rem; font-weight: 700; }
+        .language-button:hover, .language:focus-within .language-button { border-color: var(--blue); }
+        .language-icon { color: var(--blue); font-size: 1rem; }
+        .arrow { color: var(--muted); font-size: .7rem; }
+        .language-menu { position: absolute; top: calc(100% + 8px); right: 0; z-index: 2; display: none; min-width: 130px; padding: 6px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 12px 28px rgba(23, 43, 58, .14); }
+        .language:focus-within .language-menu { display: grid; }
+        .language-menu button { padding: 8px 10px; color: var(--muted); background: transparent; border: 0; border-radius: 7px; cursor: pointer; text-align: right; font: inherit; font-size: .78rem; }
+        .language-menu button:hover { color: var(--blue); background: var(--sky); }
+        .login { display: inline-flex; align-items: center; gap: 8px; height: 42px; padding: 0 16px; color: #fff; background: var(--blue); border-radius: 10px; font-size: .8rem; font-weight: 700; text-decoration: none; transition: background .2s ease, transform .2s ease; }
+        .login:hover { background: #195d88; transform: translateY(-2px); }
+        .menu-section { width: min(900px, calc(100% - 48px)); margin: 58px auto 0; text-align: center; }
+        .menu-section h1 { margin: 0 0 8px; color: var(--navy); font-size: clamp(1.5rem, 3vw, 2.25rem); }
+        .menu-section p { margin: 0 0 34px; color: var(--muted); font-size: .86rem; }
+        .menu-options { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px 38px; max-width: 690px; margin: auto; }
+        .menu-option { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--navy); text-decoration: none; font-size: .88rem; font-weight: 700; }
+        .menu-circle { display: grid; width: 142px; height: 142px; place-items: center; color: var(--blue); background: #fff; border: 1px solid var(--line); border-radius: 50%; font-size: 3.2rem; box-shadow: 0 12px 24px rgba(23, 43, 58, .08); transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease, background .25s ease; }
+        .menu-option:hover .menu-circle { color: #fff; background: var(--blue); border-color: var(--blue); box-shadow: 0 16px 28px rgba(35, 116, 167, .2); transform: translateY(-7px); }
+        .menu-option:focus-visible { outline: 3px solid rgba(229, 169, 61, .5); outline-offset: 5px; border-radius: 12px; }
+        .menu-icon { line-height: 1; }
+        .flavors-section { position: relative; isolation: isolate; overflow: hidden; width: min(950px, calc(100% - 48px)); margin: 52px auto 0; padding: 42px 24px 34px; background: url('cream.png') center 42% / cover no-repeat; border-radius: 18px; text-align: center; box-shadow: 0 16px 34px rgba(23, 43, 58, .12); }
+        .flavors-section::before { position: absolute; inset: 0; z-index: -1; background: rgba(255, 255, 255, .38); content: ''; }
+        .flavors-section > * { position: relative; z-index: 1; }
+        .flavors-section[hidden], .menu-section[hidden] { display: none; }
+        .flavors-section h1 { margin: 0 0 8px; color: var(--navy); font-size: clamp(1.5rem, 3vw, 2.25rem); }
+        .flavors-section p { margin: 0 0 32px; color: var(--muted); font-size: .86rem; }
+        .flavor-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 24px; max-width: 760px; margin: auto; }
+        .flavor-option { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--navy); text-decoration: none; font-size: .86rem; font-weight: 700; }
+        .flavor-circle { display: grid; width: 132px; height: 132px; place-items: center; background: #fff; border: 7px solid #f3d9c8; border-radius: 50%; box-shadow: 0 10px 22px rgba(23, 43, 58, .08); font-size: 2.8rem; transition: transform .25s ease, box-shadow .25s ease; }
+        .flavor-option:nth-child(2) .flavor-circle { border-color: #f5b9bd; }
+        .flavor-option:nth-child(3) .flavor-circle { border-color: #f0dc9a; }
+        .flavor-option:nth-child(4) .flavor-circle { border-color: #e6d2a8; }
+        .flavor-option:nth-child(5) .flavor-circle { border-color: #f0e57c; }
+        .flavor-option:nth-child(6) .flavor-circle { border-color: #cce2f2; }
+        .flavor-option:nth-child(7) .flavor-circle { border-color: #c7a6d6; }
+        .flavor-option:hover .flavor-circle { box-shadow: 0 16px 28px rgba(23, 43, 58, .14); transform: translateY(-7px) scale(1.03); }
+        .juices-section { position: relative; isolation: isolate; overflow: hidden; width: min(950px, calc(100% - 48px)); margin: 52px auto 0; padding: 42px 24px 34px; background: url('gue.png') center 42% / cover no-repeat; border-radius: 18px; text-align: center; box-shadow: 0 16px 34px rgba(23, 43, 58, .12); }
+        .juices-section::before { position: absolute; inset: 0; z-index: -1; background: rgba(255, 255, 255, .38); content: ''; }
+        .juices-section > * { position: relative; z-index: 1; }
+        .juices-section[hidden] { display: none; }
+        .juices-section h1 { margin: 0 0 8px; color: var(--navy); font-size: clamp(1.5rem, 3vw, 2.25rem); }
+        .juices-section > p { margin: 0 0 32px; color: var(--muted); font-size: .86rem; }
+        .juice-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 24px; max-width: 760px; margin: auto; }
+        .juice-option { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--navy); font-size: .86rem; font-weight: 700; }
+        .juice-circle { display: grid; width: 132px; height: 132px; place-items: center; background: #fff; border: 7px solid #f6c98d; border-radius: 50%; box-shadow: 0 10px 22px rgba(23, 43, 58, .08); font-size: 2.8rem; transition: transform .25s ease, box-shadow .25s ease; }
+        .juice-option:nth-child(2) .juice-circle { border-color: #c7a6d6; }
+        .juice-option:nth-child(3) .juice-circle { border-color: #f1a9a9; }
+        .juice-option:nth-child(4) .juice-circle { border-color: #f0e57c; }
+        .juice-option:nth-child(5) .juice-circle { border-color: #f0dc9a; }
+        .juice-option:nth-child(6) .juice-circle { border-color: #cce2f2; }
+        .juice-option:nth-child(7) .juice-circle { border-color: #f5b9bd; }
+        .juice-option:nth-child(8) .juice-circle { border-color: #f3d9c8; }
+        .juice-option:hover .juice-circle { box-shadow: 0 16px 28px rgba(23, 43, 58, .14); transform: translateY(-7px) scale(1.03); }
+        .juice-prices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 760px; margin: 38px auto 0; }
+        .juice-prices-title { grid-column: 1 / -1; margin: 0 0 2px; color: var(--navy); font-size: 1rem; }
+        .milkshake-prices { margin-top: 24px; }
+        .tea-section { position: relative; isolation: isolate; overflow: hidden; width: min(950px, calc(100% - 48px)); margin: 52px auto 0; padding: 42px 24px 34px; background: url('chai.png') center 55% / cover no-repeat; border-radius: 18px; text-align: center; box-shadow: 0 16px 34px rgba(23, 43, 58, .12); }
+        .tea-section::before { position: absolute; inset: 0; z-index: -1; background: rgba(255, 255, 255, .38); content: ''; }
+        .tea-section > * { position: relative; z-index: 1; }
+        .tea-section[hidden] { display: none; }
+        .tea-section h1 { margin: 0 0 8px; color: var(--navy); font-size: clamp(1.5rem, 3vw, 2.25rem); }
+        .tea-section > p { margin: 0 0 32px; color: var(--muted); font-size: .86rem; }
+        .tea-options { display: grid; grid-template-columns: repeat(2, 1fr); gap: 28px 24px; max-width: 400px; margin: auto; }
+        .tea-option { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--navy); font-size: .86rem; font-weight: 700; }
+        .tea-circle { display: grid; width: 132px; height: 132px; place-items: center; background: #fff; border: 7px solid #e5c68f; border-radius: 50%; box-shadow: 0 10px 22px rgba(23, 43, 58, .08); font-size: 2.8rem; }
+        .tea-option:nth-child(2) .tea-circle { border-color: #cce2f2; }
+        .tea-extras { display: flex; justify-content: center; flex-wrap: wrap; gap: 16px; margin-top: 30px; color: var(--muted); font-size: .8rem; font-weight: 700; }
+        .tea-extras label { display: inline-flex; align-items: center; gap: 6px; cursor: pointer; }
+        .tea-extras input { accent-color: var(--blue); }
+        .crepe-section { width: min(950px, calc(100% - 48px)); margin: 52px auto 0; text-align: center; }
+        .crepe-section[hidden] { display: none; }
+        .crepe-section h1 { margin: 0 0 8px; color: var(--navy); font-size: clamp(1.5rem, 3vw, 2.25rem); }
+        .crepe-section > p { margin: 0 0 32px; color: var(--muted); font-size: .86rem; }
+        .crepe-options { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px 24px; max-width: 760px; margin: auto; }
+        .crepe-option { display: flex; flex-direction: column; align-items: center; gap: 10px; color: var(--navy); font-size: .86rem; font-weight: 700; }
+        .crepe-circle { display: grid; width: 132px; height: 132px; place-items: center; background: #fff; border: 7px solid #f3d9c8; border-radius: 50%; box-shadow: 0 10px 22px rgba(23, 43, 58, .08); font-size: 2.8rem; }
+        .crepe-option:nth-child(2) .crepe-circle { border-color: #f0dc9a; }
+        .crepe-option:nth-child(3) .crepe-circle { border-color: #f6c98d; }
+        .crepe-option:nth-child(4) .crepe-circle { border-color: #f5b9bd; }
+        .crepe-option:nth-child(5) .crepe-circle { border-color: #cce2f2; }
+        .crepe-option:nth-child(6) .crepe-circle { border-color: #c7a6d6; }
+        .crepe-option:nth-child(7) .crepe-circle { border-color: #e5c68f; }
+        .crepe-option:nth-child(8) .crepe-circle { border-color: #f0e57c; }
+        .crepe-option:nth-child(9) .crepe-circle { border-color: #d5b08a; }
+        .crepe-option:nth-child(10) .crepe-circle { border-color: #b8d9c1; }
+        .crepe-option:hover .crepe-circle { box-shadow: 0 16px 28px rgba(23, 43, 58, .14); transform: translateY(-7px) scale(1.03); }
+        .crepe-prices { grid-template-columns: repeat(3, 1fr); }
+        .ice-cream-prices { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px; max-width: 760px; margin: 38px auto 0; }
+        .price-item { display: flex; flex-direction: column; gap: 3px; padding: 13px 10px; background: #fff; border: 1px solid var(--line); border-radius: 10px; box-shadow: 0 8px 18px rgba(23, 43, 58, .05); }
+        .price-name { color: var(--muted); font-size: .78rem; font-weight: 600; }
+        .price-value { color: var(--blue); font-size: .95rem; font-weight: 800; }
+        .shopping-cart { max-width: 760px; margin: 34px auto 0; padding: 22px; background: #fff; border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 10px 24px rgba(23, 43, 58, .07); text-align: right; }
+        .flavors-section > .shopping-cart, .juices-section > .shopping-cart, .tea-section > .shopping-cart, .crepe-section > .shopping-cart { box-shadow: none; }
+        .flavors-section > .shopping-cart h2, .juices-section > .shopping-cart h2, .tea-section > .shopping-cart h2, .crepe-section > .shopping-cart h2,
+        .flavors-section > .shopping-cart .customer-fields, .flavors-section > .shopping-cart .location-fields, .flavors-section > .shopping-cart .location-hint,
+        .juices-section > .shopping-cart .customer-fields, .juices-section > .shopping-cart .location-fields, .juices-section > .shopping-cart .location-hint,
+        .tea-section > .shopping-cart .customer-fields, .tea-section > .shopping-cart .location-fields, .tea-section > .shopping-cart .location-hint,
+        .crepe-section > .shopping-cart .customer-fields, .crepe-section > .shopping-cart .location-fields, .crepe-section > .shopping-cart .location-hint,
+        .flavors-section > .shopping-cart .cart-items, .flavors-section > .shopping-cart .cart-total, .flavors-section > .shopping-cart .confirm-order, .flavors-section > .shopping-cart .order-review, .flavors-section > .shopping-cart .send-actions, .flavors-section > .shopping-cart .copy-status,
+        .juices-section > .shopping-cart .cart-items, .juices-section > .shopping-cart .cart-total, .juices-section > .shopping-cart .confirm-order, .juices-section > .shopping-cart .order-review, .juices-section > .shopping-cart .send-actions, .juices-section > .shopping-cart .copy-status,
+        .tea-section > .shopping-cart .cart-items, .tea-section > .shopping-cart .cart-total, .tea-section > .shopping-cart .confirm-order, .tea-section > .shopping-cart .order-review, .tea-section > .shopping-cart .send-actions, .tea-section > .shopping-cart .copy-status,
+        .crepe-section > .shopping-cart .cart-items, .crepe-section > .shopping-cart .cart-total, .crepe-section > .shopping-cart .confirm-order, .crepe-section > .shopping-cart .order-review, .crepe-section > .shopping-cart .send-actions, .crepe-section > .shopping-cart .copy-status { display: none; }
+        .main-cart { width: min(760px, 100%); margin: 42px auto 0; }
+        .main-cart[hidden] { display: none; }
+        .main-cart-toggle { display: inline-flex; align-items: center; gap: 8px; margin-top: 38px; padding: 12px 18px; color: #fff; background: var(--blue); border: 0; border-radius: 10px; cursor: pointer; font: inherit; font-size: .84rem; font-weight: 800; }
+        .main-cart-toggle:hover { background: #195d88; }
+        .shopping-cart h2 { margin: 0 0 18px; color: var(--navy); font-size: 1.15rem; }
+        .cart-form { display: grid; grid-template-columns: 1fr 1fr 130px auto; gap: 10px; align-items: end; }
+        .cart-field { display: grid; gap: 5px; }
+        .cart-field label { color: var(--muted); font-size: .75rem; font-weight: 700; }
+        .cart-field select, .cart-field input { width: 100%; height: 42px; padding: 0 10px; color: var(--navy); background: #fff; border: 1px solid var(--line); border-radius: 9px; font: inherit; font-size: .8rem; }
+        .cart-field select:focus, .cart-field input:focus { outline: 2px solid rgba(35, 116, 167, .25); border-color: var(--blue); }
+        .customer-fields { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 12px; }
+        .customer-fields input { width: 100%; height: 42px; padding: 0 10px; color: var(--navy); background: #fff; border: 1px solid var(--line); border-radius: 9px; font: inherit; font-size: .8rem; }
+        .location-fields { display: flex; gap: 8px; margin-bottom: 12px; }
+        .location-fields input { flex: 1; min-width: 0; height: 42px; padding: 0 10px; color: var(--navy); background: #fff; border: 1px solid var(--line); border-radius: 9px; font: inherit; font-size: .78rem; }
+        .maps-button { display: inline-flex; align-items: center; justify-content: center; padding: 0 13px; color: #fff; background: var(--gold); border-radius: 9px; font-size: .76rem; font-weight: 800; text-decoration: none; white-space: nowrap; }
+        .maps-button:hover { background: #c88e25; }
+        .location-hint { margin: -5px 0 12px; color: var(--muted); font-size: .7rem; }
+        .add-to-cart { height: 42px; padding: 0 16px; color: #fff; background: var(--blue); border: 0; border-radius: 9px; cursor: pointer; font: inherit; font-size: .8rem; font-weight: 700; }
+        .add-to-cart:hover { background: #195d88; }
+        .cart-added-notice { position: fixed; right: 24px; bottom: 24px; z-index: 10; display: flex; align-items: center; gap: 8px; padding: 11px 16px; color: #176b3a; background: #e4f8eb; border: 1px solid #a9dfbb; border-radius: 9px; box-shadow: 0 8px 20px rgba(23, 43, 58, .12); font-size: .8rem; font-weight: 800; opacity: 0; pointer-events: none; transform: translateY(10px); transition: opacity .2s ease, transform .2s ease; }
+        .cart-added-notice.visible { opacity: 1; transform: translateY(0); }
+        .cart-items { display: grid; gap: 8px; margin-top: 18px; }
+        .cart-row { display: grid; grid-template-columns: 1fr 82px 110px 32px; gap: 10px; align-items: center; padding: 10px 12px; background: var(--sky); border-radius: 9px; font-size: .78rem; }
+        .cart-row-name { font-weight: 700; }
+        .cart-row input { width: 70px; height: 32px; padding: 0 7px; border: 1px solid var(--line); border-radius: 7px; font: inherit; text-align: center; }
+        .cart-row-price { color: var(--blue); font-weight: 800; white-space: nowrap; }
+        .remove-item { width: 28px; height: 28px; color: #b55454; background: transparent; border: 0; border-radius: 6px; cursor: pointer; font-size: 1.1rem; }
+        .remove-item:hover { background: #fff; }
+        .cart-empty { margin: 0; color: var(--muted); font-size: .78rem; text-align: center; }
+        .cart-total { display: flex; justify-content: space-between; margin-top: 18px; padding-top: 14px; border-top: 1px solid var(--line); font-size: .92rem; font-weight: 800; }
+        .cart-total-value { color: var(--blue); }
+        .send-actions { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px; margin-top: 18px; }
+        .send-order { width: 100%; margin-top: 0; padding: 12px 16px; color: #fff; background: #25d366; border: 0; border-radius: 9px; cursor: pointer; font: inherit; font-size: .82rem; font-weight: 800; }
+        .send-order:hover:not(:disabled) { background: #1eae55; }
+        .send-order:disabled { background: #b7c4ca; cursor: not-allowed; }
+        .confirm-order { width: 100%; margin-top: 18px; padding: 12px 16px; color: var(--blue); background: var(--sky); border: 1px solid #c9e4f2; border-radius: 9px; cursor: pointer; font: inherit; font-size: .82rem; font-weight: 800; }
+        .confirm-order:hover:not(:disabled) { background: #d9edf8; }
+        .confirm-order:disabled { color: var(--muted); background: #f1f4f5; border-color: var(--line); cursor: not-allowed; }
+        .order-review { display: none; margin-top: 12px; padding: 12px; color: var(--navy); background: #fffdf5; border: 1px solid #f0dc9a; border-radius: 9px; font-size: .78rem; line-height: 1.8; text-align: right; white-space: pre-line; }
+        .order-review.visible { display: block; }
+        .alternative-orders { display: contents; }
+        .alternative-order { padding: 11px 16px; color: #fff; border: 0; border-radius: 9px; cursor: pointer; font: inherit; font-size: .82rem; font-weight: 800; }
+        .alternative-order:hover:not(:disabled) { filter: brightness(.92); }
+        .alternative-order:disabled { background: #b7c4ca; cursor: not-allowed; }
+        .send-telegram { background: #229ed9; }
+        .copy-status { min-height: 20px; margin: 10px 0 0; color: var(--muted); font-size: .74rem; text-align: center; }
+        .back-button { margin-top: 32px; padding: 10px 18px; color: var(--blue); background: var(--sky); border: 0; border-radius: 9px; cursor: pointer; font: inherit; font-size: .82rem; font-weight: 700; }
+        .back-button:hover { background: #d9edf8; }
+
+        @media (max-width: 850px) {
+            .header-inner { flex-wrap: wrap; gap: 16px 22px; padding: 17px 0; }
+            .header-nav { order: 4; width: 100%; margin: 0; padding-top: 4px; }
+            .work-hours { margin-right: auto; padding-right: 0; border-right: 0; }
+        }
+        @media (max-width: 520px) {
+            .header-inner { width: calc(100% - 28px); }
+            .brand { font-size: 1.05rem; }
+            .clock { width: 32px; height: 32px; font-size: 1rem; }
+            .hours-value { font-size: .7rem; }
+            .hours-label { font-size: .64rem; }
+            .header-nav { gap: 16px; overflow-x: auto; }
+            .header-actions { margin-right: auto; gap: 7px; }
+            .language-button, .login { height: 39px; padding: 0 10px; font-size: .73rem; }
+            .menu-section { width: calc(100% - 28px); margin-top: 38px; }
+            .menu-options { gap: 22px 12px; }
+            .menu-circle { width: 104px; height: 104px; font-size: 2.5rem; }
+            .flavors-section { width: calc(100% - 28px); margin-top: 34px; padding: 30px 14px 28px; background-position: center center; }
+            .flavor-options { grid-template-columns: repeat(2, 1fr); gap: 22px 12px; }
+            .flavor-circle { width: 108px; height: 108px; font-size: 2.35rem; }
+            .juices-section { width: calc(100% - 28px); margin-top: 34px; padding: 30px 14px 28px; background-position: center center; }
+            .juice-options { grid-template-columns: repeat(2, 1fr); gap: 22px 12px; }
+            .juice-circle { width: 108px; height: 108px; font-size: 2.35rem; }
+            .juice-prices { grid-template-columns: repeat(2, 1fr); margin-top: 30px; }
+            .tea-section { width: calc(100% - 28px); margin-top: 34px; padding: 30px 14px 28px; background-position: center center; }
+            .tea-options { gap: 22px 12px; }
+            .crepe-section { width: calc(100% - 28px); margin-top: 34px; }
+            .crepe-options { grid-template-columns: repeat(2, 1fr); gap: 22px 12px; }
+            .crepe-circle { width: 108px; height: 108px; font-size: 2.35rem; }
+            .crepe-prices { grid-template-columns: repeat(2, 1fr); }
+            .ice-cream-prices { grid-template-columns: repeat(2, 1fr); margin-top: 30px; }
+            .shopping-cart { padding: 16px; }
+            .customer-fields { grid-template-columns: 1fr; }
+            .location-fields { flex-direction: column; }
+            .maps-button { min-height: 42px; }
+            .cart-form { grid-template-columns: 1fr 96px; }
+            .add-to-cart { grid-column: 1 / -1; }
+            .cart-row { grid-template-columns: 1fr 70px 85px 28px; gap: 5px; padding: 9px 7px; font-size: .7rem; }
+            .cart-row input { width: 62px; }
+            .alternative-orders { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+    <header class="site-header">
+        <div class="header-inner">
+            <a class="brand" href="#" aria-label="الصفحة الرئيسية"><span class="brand-mark">ن</span> نبض</a>
+
+            <div class="work-hours" aria-label="أوقات العمل">
+                <span class="clock" aria-hidden="true">◷</span>
+                <span><span class="hours-label">أوقات العمل</span><span class="hours-value">الإثنين - الجمعة · 08:00 - 18:00</span></span>
+            </div>
+
+            <nav class="header-nav" aria-label="التنقل الرئيسي">
+                <a href="#home">الرئيسية</a>
+                <a href="#about">من نحن</a>
+                <a href="#contact">تواصل معنا</a>
+            </nav>
+
+            <div class="header-actions">
+                <div class="language">
+                    <button class="language-button" type="button" aria-label="اختيار اللغة"><span class="language-icon" aria-hidden="true">文</span><span id="current-language">العربية</span><span class="arrow" aria-hidden="true">⌄</span></button>
+                    <div class="language-menu" aria-label="اللغات">
+                        <button type="button" data-language="العربية">العربية</button>
+                        <button type="button" data-language="Français">Français</button>
+                        <button type="button" data-language="English">English</button>
+                    </div>
+                </div>
+                <a class="login" href="#login"><span aria-hidden="true">⇥</span> تسجيل الدخول</a>
+            </div>
+        </div>
+    </header>
+
+    <main class="menu-section" id="home">
+        <h1>ماذا تفضل اليوم؟</h1>
+        <p>اختر من قائمتنا اللذيذة</p>
+        <div class="menu-options">
+            <a class="menu-option" id="ice-cream-link" href="#ice-cream"><span class="menu-circle"><span class="menu-icon" aria-hidden="true">🍦</span></span>المثلجات</a>
+            <a class="menu-option" href="#sandwiches"><span class="menu-circle"><span class="menu-icon" aria-hidden="true">🥪</span></span>السندويتشات</a>
+            <a class="menu-option" id="tea-link" href="#tea"><span class="menu-circle"><span class="menu-icon" aria-hidden="true">🍵</span></span>الشاي</a>
+            <a class="menu-option" href="#nuts"><span class="menu-circle"><span class="menu-icon" aria-hidden="true">🥜</span></span>المكسرات</a>
+            <a class="menu-option" id="juices-link" href="#juices"><span class="menu-circle"><span class="menu-icon" aria-hidden="true">🧃</span></span>العصائر الطبيعية</a>
+            <a class="menu-option" id="crepe-link" href="#crepe"><span class="menu-circle"><span class="menu-icon" aria-hidden="true">🥞</span></span>الكريب</a>
+        </div>
+        <button class="main-cart-toggle" id="main-cart-toggle" type="button">🛒 فتح سلة التسوق</button>
+        <section class="shopping-cart main-cart" id="main-cart" aria-labelledby="main-cart-title" hidden>
+            <h2 id="main-cart-title">🛒 سلة التسوق الموحدة</h2>
+            <div class="cart-items" id="main-cart-items" aria-live="polite"><p class="cart-empty">السلة فارغة</p></div>
+            <div class="cart-total"><span>السعر الإجمالي</span><span class="cart-total-value" id="main-cart-total">0 DA</span></div>
+            <div class="customer-fields"><input id="main-customer-name" type="text" placeholder="اسم العميل" autocomplete="name" required><input id="main-customer-phone" type="tel" placeholder="رقم الهاتف" autocomplete="tel" required></div>
+            <div class="location-fields"><input id="main-location" type="text" placeholder="رابط Google Maps أو اكتب العنوان يدويًا" aria-label="موقع الاستلام" required><a class="maps-button" href="https://www.google.com/maps" target="_blank" rel="noopener">فتح خرائط Google</a></div>
+            <p class="location-hint">اختر الموقع من Google Maps أو اكتب عنوانه يدويًا. الموقع إجباري.</p>
+            <button class="confirm-order" id="confirm-main-order" type="button" disabled>تأكيد الطلبية ومراجعتها</button>
+            <div class="order-review" id="main-order-review" aria-live="polite"></div>
+            <div class="send-actions">
+                <button class="send-order" id="send-main-order" type="button" disabled>إرسال الطلبية عبر واتساب</button>
+                <button class="alternative-order send-telegram" id="send-main-telegram" type="button" disabled>إرسال الطلبية عبر تيليغرام</button>
+            </div>
+            <p class="copy-status" id="main-copy-status" aria-live="polite"></p>
+        </section>
+    </main>
+
+    <main class="flavors-section" id="ice-cream" hidden>
+        <h1>نكهات المثلجات</h1>
+        <p>اختر نكهتك المفضلة</p>
+        <div class="flavor-options">
+            <a class="flavor-option" href="#chocolate"><span class="flavor-circle" aria-hidden="true">🍫</span>شوكولاطة</a>
+            <a class="flavor-option" href="#strawberry"><span class="flavor-circle" aria-hidden="true">🍓</span>فراولة</a>
+            <a class="flavor-option" href="#cantaloupe"><span class="flavor-circle" aria-hidden="true">🍈</span>كانطالو</a>
+            <a class="flavor-option" href="#vanilla"><span class="flavor-circle" aria-hidden="true">🌼</span>فانيليا</a>
+            <a class="flavor-option" href="#lemon"><span class="flavor-circle" aria-hidden="true">🍋</span>ليمون</a>
+            <a class="flavor-option" href="#petitsuisse"><span class="flavor-circle" aria-hidden="true">🍨</span>بتيسويس</a>
+            <a class="flavor-option" href="#blackcurrant"><span class="flavor-circle" aria-hidden="true">🫐</span>كاسيز</a>
+        </div>
+        <div class="ice-cream-prices" aria-label="أسعار المثلجات">
+            <div class="price-item"><span class="price-name">كورني</span><span class="price-value">120 DA</span></div>
+            <div class="price-item"><span class="price-name">علبة صغيرة</span><span class="price-value">150 DA</span></div>
+            <div class="price-item"><span class="price-name">علبة كبيرة</span><span class="price-value">200 DA</span></div>
+            <div class="price-item"><span class="price-name">علبة عائلية صغيرة</span><span class="price-value">400 DA</span></div>
+            <div class="price-item"><span   class="price-name">علبة عائلية كبيرة</span><span class="price-value">600 DA</span></div>
+        </div>
+       462825 <section class="shopping-cart" aria-labelledby="cart-title">
+            <h2 id="cart-title">سلة التسوق</h2>
+            <div class="customer-fields"><input id="ice-cream-customer-name" type="text" placeholder="اسم العميل" autocomplete="name" required><input id="ice-cream-customer-phone" type="tel" placeholder="رقم الهاتف" autocomplete="tel" required></div>
+            <div class="location-fields"><input id="ice-cream-location" type="text" placeholder="رابط Google Maps أو اكتب العنوان يدويًا" aria-label="موقع استلام المثلجات"><a class="maps-button" href="https://www.google.com/maps" target="_blank" rel="noopener">فتح خرائط Google</a></div>
+            <p class="location-hint">اختر الموقع من Google Maps أو اكتب عنوانه يدويًا. الموقع إجباري.</p>
+            <form class="cart-form" id="cart-form">
+                <div class="cart-field">
+                    <label for="product-select">نوع المثلجات</label>
+                    <select id="product-select" required>
+                        <option value="كورني" data-price="120">كورني - 120 DA</option>
+                        <option value="علبة صغيرة" data-price="150">علبة صغيرة - 150 DA</option>
+                        <option value="علبة كبيرة" data-price="200">علبة كبيرة - 200 DA</option>
+                        <option value="علبة عائلية صغيرة" data-price="400">علبة عائلية صغيرة - 400 DA</option>
+                        <option value="علبة عائلية كبيرة" data-price="600">علبة عائلية كبيرة - 600 DA</option>
+                    </select>
+                </div>
+                <div class="cart-field">
+                    <label for="flavor-select">ذوق الآيسكريم</label>
+                    <select id="flavor-select" required>
+                        <option value="شوكولاطة">شوكولاطة</option>
+                        <option value="فراولة">فراولة</option>
+                        <option value="كانطالو">كانطالو</option>
+                        <option value="فانيليا">فانيليا</option>
+                        <option value="ليمون">ليمون</option>
+                        <option value="بتيسويس">بتيسويس</option>
+                        <option value="كاسيز">كاسيز</option>
+                    </select>
+                </div>
+                <div class="cart-field">
+                    <label for="quantity-input">الكمية</label>
+                    <input id="quantity-input" type="number" min="1" value="1" required>
+                </div>
+                <button class="add-to-cart" type="submit">إضافة إلى سلة التسوق</button>
+            </form>
+            <div class="cart-items" id="cart-items" aria-live="polite">
+                <p class="cart-empty">السلة فارغة</p>
+            </div>
+            <div class="cart-total"><span>السعر الإجمالي</span><span class="cart-total-value" id="cart-total">0 DA</span></div>
+            <button class="confirm-order" id="confirm-ice-cream-order" type="button" disabled>تأكيد الطلبية ومراجعتها</button>
+            <div class="order-review" id="ice-cream-review" aria-live="polite"></div>
+            <div class="send-actions">
+                <button class="send-order" id="send-order" type="button" disabled>إرسال الطلبية عبر واتساب</button>
+                <div class="alternative-orders">
+                <button class="alternative-order send-telegram" id="send-telegram" type="button" disabled>إرسال الطلبية عبر تيليغرام</button>
+                </div>
+            </div>
+            <p class="copy-status" id="copy-status" aria-live="polite"></p>
+        </section>
+        <button class="back-button" id="back-to-menu" type="button">العودة إلى القائمة</button>
+    </main>
+
+    <main class="juices-section" id="juices" hidden>
+        <h1>العصائر الطبيعية</h1>
+        <p>اختر ذوقك المفضل</p>
+        <div class="juice-options">
+            <div class="juice-option"><span class="juice-circle" aria-hidden="true">🍊</span>برتقال</div>
+            <div class="juice-option"><span class="juice-circle" aria-hidden="true">🍇</span>عنب</div>
+            <div class="juice-option"><span class="juice-circle" aria-hidden="true">🌵</span>تين شوكي</div>
+            <div class="juice-option"><span class="juice-circle" aria-hidden="true">🍋</span>ليمون</div>
+            <div class="juice-option"><span class="juice-circle" aria-hidden="true">🍈</span>كانطالو</div>
+            <div class="juice-option"><span class="juice-circle" aria-hidden="true">🥤</span>ميلك شايك</div>
+            <div class="juice-option"><span class="juice-circle" aria-hidden="true">🍹</span>كوكتال</div>
+            <div class="juice-option"><span class="juice-circle" aria-hidden="true">🍍</span>أناناس</div>
+        </div>
+        <div class="juice-prices" aria-label="أسعار العصائر الطبيعية">
+            <h2 class="juice-prices-title">أسعار العصائر</h2>
+            <div class="price-item"><span class="price-name">كأس صغير</span><span class="price-value">100 DA</span></div>
+            <div class="price-item"><span class="price-name">كأس كبير</span><span class="price-value">200 DA</span></div>
+            <div class="price-item"><span class="price-name">قارورة 0.5 لتر</span><span class="price-value">250 DA</span></div>
+            <div class="price-item"><span class="price-name">قارورة 1 لتر</span><span class="price-value">400 DA</span></div>
+        </div>
+        <div class="juice-prices milkshake-prices" aria-label="أسعار الميلك شايك">
+            <h2 class="juice-prices-title">أسعار الميلك شايك</h2>
+            <div class="price-item"><span class="price-name">كأس صغير</span><span class="price-value">150 DA</span></div>
+            <div class="price-item"><span class="price-name">كأس كبير</span><span class="price-value">300 DA</span></div>
+            <div class="price-item"><span class="price-name">قارورة 0.5 لتر</span><span class="price-value">350 DA</span></div>
+            <div class="price-item"><span class="price-name">قارورة 1 لتر</span><span class="price-value">500 DA</span></div>
+        </div>
+        <section class="shopping-cart" aria-labelledby="juice-cart-title">
+            <h2 id="juice-cart-title">سلة العصائر</h2>
+            <div class="customer-fields"><input id="juice-customer-name" type="text" placeholder="اسم العميل" autocomplete="name" required><input id="juice-customer-phone" type="tel" placeholder="رقم الهاتف" autocomplete="tel" required></div>
+            <div class="location-fields"><input id="juice-location" type="text" placeholder="رابط Google Maps أو اكتب العنوان يدويًا" aria-label="موقع استلام العصائر"><a class="maps-button" href="https://www.google.com/maps" target="_blank" rel="noopener">فتح خرائط Google</a></div>
+            <p class="location-hint">اختر الموقع من Google Maps أو اكتب عنوانه يدويًا. الموقع إجباري.</p>
+            <form class="cart-form" id="juice-cart-form">
+                <div class="cart-field">
+                    <label for="juice-product-select">نوع العصير</label>
+                    <select id="juice-product-select" required>
+                        <option value="برتقال">برتقال</option>
+                        <option value="عنب">عنب</option>
+                        <option value="تين شوكي">تين شوكي</option>
+                        <option value="ليمون">ليمون</option>
+                        <option value="كانطالو">كانطالو</option>
+                        <option value="ميلك شايك">ميلك شايك</option>
+                        <option value="كوكتال">كوكتال</option>
+                        <option value="أناناس">أناناس</option>
+                    </select>
+                </div>
+                <div class="cart-field">
+                    <label for="juice-size-select">الحجم</label>
+                    <select id="juice-size-select" required>
+                        <option value="كأس صغير" data-regular-price="100" data-milkshake-price="150">كأس صغير - 100 DA</option>
+                        <option value="كأس كبير" data-regular-price="200" data-milkshake-price="300">كأس كبير - 200 DA</option>
+                        <option value="قارورة 0.5 لتر" data-regular-price="250" data-milkshake-price="350">قارورة 0.5 لتر - 250 DA</option>
+                        <option value="قارورة 1 لتر" data-regular-price="400" data-milkshake-price="500">قارورة 1 لتر - 400 DA</option>
+                    </select>
+                </div>
+                <div class="cart-field">
+                    <label for="juice-quantity-input">الكمية</label>
+                    <input id="juice-quantity-input" type="number" min="1" value="1" required>
+                </div>
+                <button class="add-to-cart" type="submit">إضافة إلى سلة التسوق</button>
+            </form>
+            <div class="cart-items" id="juice-cart-items" aria-live="polite">
+                <p class="cart-empty">السلة فارغة</p>
+            </div>
+            <div class="cart-total"><span>السعر الإجمالي</span><span class="cart-total-value" id="juice-cart-total">0 DA</span></div>
+            <button class="confirm-order" id="confirm-juice-order" type="button" disabled>تأكيد الطلبية ومراجعتها</button>
+            <div class="order-review" id="juice-review" aria-live="polite"></div>
+            <div class="send-actions">
+                <button class="send-order" id="send-juice-order" type="button" disabled>إرسال الطلبية عبر واتساب</button>
+                <div class="alternative-orders">
+                <button class="alternative-order send-telegram" id="send-juice-telegram" type="button" disabled>إرسال الطلبية عبر تيليغرام</button>
+                </div>
+            </div>
+            <p class="copy-status" id="juice-copy-status" aria-live="polite"></p>
+        </section>
+        <button class="back-button" id="back-from-juices" type="button">العودة إلى القائمة</button>
+    </main>
+
+    <main class="tea-section" id="tea" hidden>
+        <h1>الشاي</h1>
+        <p>اختر ذوقك المفضل</p>
+        <div class="tea-options">
+            <div class="tea-option"><span class="tea-circle" aria-hidden="true">🍵</span>بدون سكر</div>
+            <div class="tea-option"><span class="tea-circle" aria-hidden="true">🫖</span>بالسكر</div>
+        </div>
+        <div class="juice-prices" aria-label="أسعار الشاي">
+            <h2 class="juice-prices-title">أسعار الشاي</h2>
+            <div class="price-item"><span class="price-name">كأس صغير</span><span class="price-value">30 DA</span></div>
+            <div class="price-item"><span class="price-name">كأس متوسط (كريستال)</span><span class="price-value">40 DA</span></div>
+            <div class="price-item"><span class="price-name">كأس كبير</span><span class="price-value">90 DA</span></div>
+            <div class="price-item"><span class="price-name">قارورة 0.5 لتر</span><span class="price-value">100 DA</span></div>
+            <div class="price-item"><span class="price-name">قارورة 1 لتر</span><span class="price-value">200 DA</span></div>
+        </div>
+        <section class="shopping-cart" aria-labelledby="tea-cart-title">
+            <h2 id="tea-cart-title">سلة الشاي</h2>
+            <div class="customer-fields"><input id="tea-customer-name" type="text" placeholder="اسم العميل" autocomplete="name" required><input id="tea-customer-phone" type="tel" placeholder="رقم الهاتف" autocomplete="tel" required></div>
+            <div class="location-fields"><input id="tea-location" type="text" placeholder="رابط Google Maps أو اكتب العنوان يدويًا" aria-label="موقع استلام الشاي"><a class="maps-button" href="https://www.google.com/maps" target="_blank" rel="noopener">فتح خرائط Google</a></div>
+            <p class="location-hint">اختر الموقع من Google Maps أو اكتب عنوانه يدويًا. الموقع إجباري.</p>
+            <form class="cart-form" id="tea-cart-form">
+                <div class="cart-field">
+                    <label for="tea-sugar-select">نوع الشاي</label>
+                    <select id="tea-sugar-select" required>
+                        <option value="بدون سكر">بدون سكر</option>
+                        <option value="بالسكر">بالسكر</option>
+                    </select>
+                </div>
+                <div class="cart-field">
+                    <label for="tea-size-select">الحجم</label>
+                    <select id="tea-size-select" required>
+                        <option value="كأس صغير" data-price="30">كأس صغير - 30 DA</option>
+                        <option value="كأس متوسط (كريستال)" data-price="40">كأس متوسط (كريستال) - 40 DA</option>
+                        <option value="كأس كبير" data-price="90">كأس كبير - 90 DA</option>
+                        <option value="قارورة 0.5 لتر" data-price="100">قارورة 0.5 لتر - 100 DA</option>
+                        <option value="قارورة 1 لتر" data-price="200">قارورة 1 لتر - 200 DA</option>
+                    </select>
+                </div>
+                <div class="cart-field">
+                    <label for="tea-quantity-input">الكمية</label>
+                    <input id="tea-quantity-input" type="number" min="1" value="1" required>
+                </div>
+                <button class="add-to-cart" type="submit">إضافة إلى سلة التسوق</button>
+            </form>
+            <div class="tea-extras">
+                <label><input id="tea-lemon" type="checkbox"> إضافة ليمون مجانية</label>
+                <label><input id="tea-mint" type="checkbox"> إضافة نعناع مجانية</label>
+            </div>
+            <div class="cart-items" id="tea-cart-items" aria-live="polite"><p class="cart-empty">السلة فارغة</p></div>
+            <div class="cart-total"><span>السعر الإجمالي</span><span class="cart-total-value" id="tea-cart-total">0 DA</span></div>
+            <button class="confirm-order" id="confirm-tea-order" type="button" disabled>تأكيد الطلبية ومراجعتها</button>
+            <div class="order-review" id="tea-review" aria-live="polite"></div>
+            <div class="send-actions">
+                <button class="send-order" id="send-tea-order" type="button" disabled>إرسال الطلبية عبر واتساب</button>
+                <div class="alternative-orders">
+                <button class="alternative-order send-telegram" id="send-tea-telegram" type="button" disabled>إرسال الطلبية عبر تيليغرام</button>
+                </div>
+            </div>
+            <p class="copy-status" id="tea-copy-status" aria-live="polite"></p>
+        </section>
+        <button class="back-button" id="back-from-tea" type="button">العودة إلى القائمة</button>
+    </main>
+
+    <main class="crepe-section" id="crepe" hidden>
+        <h1>الكريب</h1>
+        <p>اختر الكريب المفضل لديك</p>
+        <div class="crepe-options">
+            <div class="crepe-option"><span class="crepe-circle" aria-hidden="true">🥞</span>كريب عادي</div>
+            <div class="crepe-option"><span class="crepe-circle" aria-hidden="true">🍌</span>كريب بالموز</div>
+            <div class="crepe-option"><span class="crepe-circle" aria-hidden="true">🍍</span>كريب بالأناناس</div>
+            <div class="crepe-option"><span class="crepe-circle" aria-hidden="true">🍓</span>كريب بالفواكه</div>
+            <div class="crepe-option"><span class="crepe-circle" aria-hidden="true">🍫</span>كريب بـ 4 أنواع من الشوكولاته</div>
+            <div class="crepe-option"><span class="crepe-circle" aria-hidden="true">👑</span>كريب ملكي</div>
+            <div class="crepe-option"><span class="crepe-circle" aria-hidden="true">✨</span>كريب خاص</div>
+            <div class="crepe-option"><span class="crepe-circle" aria-hidden="true">🍨</span>كريب في كأس مع الفواكه</div>
+            <div class="crepe-option"><span class="crepe-circle" aria-hidden="true">💛</span>قطع كريب صغيرة على شكل قلب محشوة بالموز</div>
+            <div class="crepe-option"><span class="crepe-circle" aria-hidden="true">🔺</span>قطع كريب مثلث كبير محشوة بالموز</div>
+        </div>
+        <div class="juice-prices crepe-prices" aria-label="أسعار الكريب">
+            <h2 class="juice-prices-title">أسعار الكريب</h2>
+            <div class="price-item"><span class="price-name">كريب عادي</span><span class="price-value">300 DA</span></div>
+            <div class="price-item"><span class="price-name">كريب بالموز</span><span class="price-value">450 DA</span></div>
+            <div class="price-item"><span class="price-name">كريب بالأناناس</span><span class="price-value">500 DA</span></div>
+            <div class="price-item"><span class="price-name">كريب بالفواكه</span><span class="price-value">600 DA</span></div>
+            <div class="price-item"><span class="price-name">كريب بـ 4 أنواع من الشوكولاته</span><span class="price-value">600 DA</span></div>
+            <div class="price-item"><span class="price-name">كريب ملكي</span><span class="price-value">650 DA</span></div>
+            <div class="price-item"><span class="price-name">كريب خاص</span><span class="price-value">750 DA</span></div>
+            <div class="price-item"><span class="price-name">كريب في كأس مع الفواكه</span><span class="price-value">300 DA</span></div>
+            <div class="price-item"><span class="price-name">قطع صغيرة على شكل قلب بالموز</span><span class="price-value">100 DA</span></div>
+            <div class="price-item"><span class="price-name">قطع مثلث كبير محشوة بالموز</span><span class="price-value">250 DA</span></div>
+        </div>
+        <section class="shopping-cart" aria-labelledby="crepe-cart-title">
+            <h2 id="crepe-cart-title">سلة الكريب</h2>
+            <div class="customer-fields"><input id="crepe-customer-name" type="text" placeholder="اسم العميل" autocomplete="name" required><input id="crepe-customer-phone" type="tel" placeholder="رقم الهاتف" autocomplete="tel" required></div>
+            <div class="location-fields"><input id="crepe-location" type="text" placeholder="رابط Google Maps أو اكتب العنوان يدويًا" aria-label="موقع استلام الكريب"><a class="maps-button" href="https://www.google.com/maps" target="_blank" rel="noopener">فتح خرائط Google</a></div>
+            <p class="location-hint">اختر الموقع من Google Maps أو اكتب عنوانه يدويًا. الموقع إجباري.</p>
+            <form class="cart-form" id="crepe-cart-form">
+                <div class="cart-field">
+                    <label for="crepe-product-select">نوع الكريب</label>
+                    <select id="crepe-product-select" required>
+                        <option value="كريب عادي" data-price="300">كريب عادي - 300 DA</option>
+                        <option value="كريب بالموز" data-price="450">كريب بالموز - 450 DA</option>
+                        <option value="كريب بالأناناس" data-price="500">كريب بالأناناس - 500 DA</option>
+                        <option value="كريب بالفواكه" data-price="600">كريب بالفواكه - 600 DA</option>
+                        <option value="كريب بـ 4 أنواع من الشوكولاته" data-price="600">كريب بـ 4 أنواع من الشوكولاته - 600 DA</option>
+                        <option value="كريب ملكي" data-price="650">كريب ملكي - 650 DA</option>
+                        <option value="كريب خاص" data-price="750">كريب خاص - 750 DA</option>
+                        <option value="كريب في كأس مع الفواكه" data-price="300">كريب في كأس مع الفواكه - 300 DA</option>
+                        <option value="قطع كريب صغيرة على شكل قلب محشوة بالموز" data-price="100">قطع كريب صغيرة على شكل قلب محشوة بالموز - 100 DA</option>
+                        <option value="قطع كريب مثلث كبير محشوة بالموز" data-price="250">قطع كريب مثلث كبير محشوة بالموز - 250 DA</option>
+                    </select>
+                </div>
+                <div class="cart-field">
+                    <label for="crepe-quantity-input">الكمية</label>
+                    <input id="crepe-quantity-input" type="number" min="1" value="1" required>
+                </div>
+                <button class="add-to-cart" type="submit">إضافة إلى سلة التسوق</button>
+            </form>
+            <div class="cart-items" id="crepe-cart-items" aria-live="polite"><p class="cart-empty">السلة فارغة</p></div>
+            <div class="cart-total"><span>السعر الإجمالي</span><span class="cart-total-value" id="crepe-cart-total">0 DA</span></div>
+            <button class="confirm-order" id="confirm-crepe-order" type="button" disabled>تأكيد الطلبية ومراجعتها</button>
+            <div class="order-review" id="crepe-review" aria-live="polite"></div>
+            <div class="send-actions">
+                <button class="send-order" id="send-crepe-order" type="button" disabled>إرسال الطلبية عبر واتساب</button>
+                <div class="alternative-orders">
+                <button class="alternative-order send-telegram" id="send-crepe-telegram" type="button" disabled>إرسال الطلبية عبر تيليغرام</button>
+                </div>
+            </div>
+            <p class="copy-status" id="crepe-copy-status" aria-live="polite"></p>
+        </section>
+        <button class="back-button" id="back-from-crepe" type="button">العودة إلى القائمة</button>
+    </main>
+
+    <div class="cart-added-notice" id="cart-added-notice" role="status" aria-live="polite"><span aria-hidden="true">✓</span> تمت إضافة الطلب في سلة التسوق</div>
+
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+    <script>
+        const currentLanguage = document.querySelector('#current-language');
+        const menuSection = document.querySelector('.menu-section');
+        const flavorsSection = document.querySelector('.flavors-section');
+        const juicesSection = document.querySelector('.juices-section');
+        const cartForm = document.querySelector('#cart-form');
+        const productSelect = document.querySelector('#product-select');
+        const quantityInput = document.querySelector('#quantity-input');
+        const flavorSelect = document.querySelector('#flavor-select');
+        const cartItems = document.querySelector('#cart-items');
+        const cartTotal = document.querySelector('#cart-total');
+        const sendOrder = document.querySelector('#send-order');
+        const sendTelegram = document.querySelector('#send-telegram');
+        const copyStatus = document.querySelector('#copy-status');
+        const cart = new Map();
+        const locationInputIds = { iceCream: 'ice-cream-location', juices: 'juice-location', tea: 'tea-location', crepe: 'crepe-location', main: 'main-location' };
+        const getLocationText = (category) => {
+            const location = document.querySelector(`#${locationInputIds[category]}`).value.trim();
+            return location ? `موقع الاستلام: ${location}` : 'موقع الاستلام: لم يتم تحديده';
+        };
+        const juiceCartForm = document.querySelector('#juice-cart-form');
+        const juiceProductSelect = document.querySelector('#juice-product-select');
+        const juiceSizeSelect = document.querySelector('#juice-size-select');
+        const juiceQuantityInput = document.querySelector('#juice-quantity-input');
+        const juiceCartItems = document.querySelector('#juice-cart-items');
+        const juiceCartTotal = document.querySelector('#juice-cart-total');
+        const sendJuiceOrder = document.querySelector('#send-juice-order');
+        const sendJuiceTelegram = document.querySelector('#send-juice-telegram');
+        const juiceCopyStatus = document.querySelector('#juice-copy-status');
+        const juiceCart = new Map();
+        const teaSection = document.querySelector('.tea-section');
+        const teaCartForm = document.querySelector('#tea-cart-form');
+        const teaSugarSelect = document.querySelector('#tea-sugar-select');
+        const teaSizeSelect = document.querySelector('#tea-size-select');
+        const teaQuantityInput = document.querySelector('#tea-quantity-input');
+        const teaLemon = document.querySelector('#tea-lemon');
+        const teaMint = document.querySelector('#tea-mint');
+        const teaCartItems = document.querySelector('#tea-cart-items');
+        const teaCartTotal = document.querySelector('#tea-cart-total');
+        const sendTeaOrder = document.querySelector('#send-tea-order');
+        const sendTeaTelegram = document.querySelector('#send-tea-telegram');
+        const teaCopyStatus = document.querySelector('#tea-copy-status');
+        const teaCart = new Map();
+        const crepeSection = document.querySelector('.crepe-section');
+        const crepeCartForm = document.querySelector('#crepe-cart-form');
+        const crepeProductSelect = document.querySelector('#crepe-product-select');
+        const crepeQuantityInput = document.querySelector('#crepe-quantity-input');
+        const crepeCartItems = document.querySelector('#crepe-cart-items');
+        const crepeCartTotal = document.querySelector('#crepe-cart-total');
+        const sendCrepeOrder = document.querySelector('#send-crepe-order');
+        const sendCrepeTelegram = document.querySelector('#send-crepe-telegram');
+        const crepeCopyStatus = document.querySelector('#crepe-copy-status');
+        const crepeCart = new Map();
+        const mainCartItems = document.querySelector('#main-cart-items');
+        const mainCartSection = document.querySelector('#main-cart');
+        const mainCartToggle = document.querySelector('#main-cart-toggle');
+        const mainCartTotal = document.querySelector('#main-cart-total');
+        const mainCustomerName = document.querySelector('#main-customer-name');
+        const mainCustomerPhone = document.querySelector('#main-customer-phone');
+        const mainLocation = document.querySelector('#main-location');
+        const confirmMainOrder = document.querySelector('#confirm-main-order');
+        const mainOrderReview = document.querySelector('#main-order-review');
+        const sendMainOrder = document.querySelector('#send-main-order');
+        const sendMainTelegram = document.querySelector('#send-main-telegram');
+        const mainCopyStatus = document.querySelector('#main-copy-status');
+        const mainCart = new Map();
+        const cartAddedNotice = document.querySelector('#cart-added-notice');
+        let mainOrderConfirmed = false;
+
+        const getItemLabel = (item) => {
+            if (item.category === 'tea') {
+                const extras = item.extras.length ? `، ${item.extras.join(' و ')}` : '';
+                return `${item.sugar} (${item.size}${extras})`;
+            }
+            if (item.category === 'iceCream') return `${item.name} (${item.flavor})`;
+            if (item.category === 'juices') return `${item.name} (${item.size})`;
+            return item.name;
+        };
+
+        const resetMainConfirmation = () => {
+            mainOrderConfirmed = false;
+            mainOrderReview.classList.remove('visible');
+            mainOrderReview.textContent = '';
+            confirmMainOrder.disabled = !mainCart.size;
+            confirmMainOrder.textContent = 'تأكيد الطلبية ومراجعتها';
+            sendMainOrder.disabled = true;
+            sendMainTelegram.disabled = true;
+        };
+
+        const addToMainCart = (category, item, quantity) => {
+            const extras = item.extras || [];
+            const key = `${category}|${item.name || item.sugar}|${item.flavor || item.size}|${extras.join('|')}`;
+            const existing = mainCart.get(key) || { ...item, category, extras, quantity: 0 };
+            existing.quantity += quantity;
+            mainCart.set(key, existing);
+            renderMainCart();
+        };
+
+        const renderMainCart = () => {
+            mainCartItems.innerHTML = '';
+            let total = 0;
+            mainCart.forEach((item, key) => {
+                const row = document.createElement('div');
+                row.className = 'cart-row';
+                row.innerHTML = `<span class="cart-row-name">${getItemLabel(item)}</span><input type="number" min="1" value="${item.quantity}" aria-label="كمية ${getItemLabel(item)}"><span class="cart-row-price">${item.price * item.quantity} DA</span><button class="remove-item" type="button" aria-label="حذف ${getItemLabel(item)}">×</button>`;
+                row.querySelector('input').addEventListener('change', (event) => {
+                    item.quantity = Math.max(1, Number.parseInt(event.target.value, 10) || 1);
+                    renderMainCart();
+                });
+                row.querySelector('.remove-item').addEventListener('click', () => {
+                    mainCart.delete(key);
+                    renderMainCart();
+                });
+                mainCartItems.append(row);
+                total += item.price * item.quantity;
+            });
+            if (!mainCart.size) mainCartItems.innerHTML = '<p class="cart-empty">السلة فارغة</p>';
+            mainCartTotal.textContent = `${total} DA`;
+            resetMainConfirmation();
+        };
+
+        const getMainOrderMessage = () => {
+            let total = 0;
+            const location = mainLocation.value.trim();
+            const customerName = mainCustomerName.value.trim();
+            const customerPhone = mainCustomerPhone.value.trim();
+            const lines = ['السلام عليكم، أريد طلبية:', '', `اسم العميل: ${customerName}`, `رقم الهاتف: ${customerPhone}`, `موقع الاستلام: ${location}`];
+            mainCart.forEach((item) => {
+                const itemTotal = item.price * item.quantity;
+                lines.push(`- ${getItemLabel(item)}: ${item.quantity} × ${item.price} DA = ${itemTotal} DA`);
+                total += itemTotal;
+            });
+            lines.push('', `السعر الإجمالي: ${total} DA`);
+            return lines.join('\n');
+        };
+
+        const addFormItemToMainCart = (event, category, getItem) => {
+            event.preventDefault();
+            const { item, quantity } = getItem();
+            addToMainCart(category, item, quantity);
+            cartAddedNotice.classList.add('visible');
+            window.clearTimeout(cartAddedNotice.hideTimer);
+            cartAddedNotice.hideTimer = window.setTimeout(() => cartAddedNotice.classList.remove('visible'), 2600);
+        };
+
+        cartForm.addEventListener('submit', (event) => addFormItemToMainCart(event, 'iceCream', () => {
+            const option = productSelect.selectedOptions[0];
+            const result = { item: { name: option.value, flavor: flavorSelect.value, price: Number(option.dataset.price) }, quantity: Math.max(1, Number.parseInt(quantityInput.value, 10) || 1) };
+            quantityInput.value = 1;
+            return result;
+        }));
+
+        juiceCartForm.addEventListener('submit', (event) => addFormItemToMainCart(event, 'juices', () => {
+            const option = juiceSizeSelect.selectedOptions[0];
+            const name = juiceProductSelect.value;
+            const result = { item: { name, size: option.value, price: Number(name === 'ميلك شايك' ? option.dataset.milkshakePrice : option.dataset.regularPrice) }, quantity: Math.max(1, Number.parseInt(juiceQuantityInput.value, 10) || 1) };
+            juiceQuantityInput.value = 1;
+            return result;
+        }));
+
+        teaCartForm.addEventListener('submit', (event) => addFormItemToMainCart(event, 'tea', () => {
+            const option = teaSizeSelect.selectedOptions[0];
+            const extras = [teaLemon.checked ? 'ليمون' : '', teaMint.checked ? 'نعناع' : ''].filter(Boolean);
+            const result = { item: { sugar: teaSugarSelect.value, size: option.value, extras, price: Number(option.dataset.price) }, quantity: Math.max(1, Number.parseInt(teaQuantityInput.value, 10) || 1) };
+            teaQuantityInput.value = 1;
+            teaLemon.checked = false;
+            teaMint.checked = false;
+            return result;
+        }));
+
+        crepeCartForm.addEventListener('submit', (event) => addFormItemToMainCart(event, 'crepe', () => {
+            const option = crepeProductSelect.selectedOptions[0];
+            const result = { item: { name: option.value, price: Number(option.dataset.price) }, quantity: Math.max(1, Number.parseInt(crepeQuantityInput.value, 10) || 1) };
+            crepeQuantityInput.value = 1;
+            return result;
+        }));
+
+        confirmMainOrder.addEventListener('click', () => {
+            if (!mainCustomerName.value.trim() || !mainCustomerPhone.value.trim() || !mainLocation.value.trim()) {
+                alert('أدخل الاسم ورقم الهاتف وموقع الاستلام قبل تأكيد الطلبية.');
+                return;
+            }
+            mainOrderConfirmed = true;
+            mainOrderReview.textContent = `مراجعة الطلبية:\n${getMainOrderMessage()}`;
+            mainOrderReview.classList.add('visible');
+            confirmMainOrder.textContent = 'تم تأكيد الطلبية';
+            sendMainOrder.disabled = false;
+            sendMainTelegram.disabled = false;
+        });
+
+        const sendMainOrderMessage = async (message, useTelegram = false) => {
+            if (useTelegram) {
+                try { await navigator.clipboard.writeText(message); } catch { /* Telegram link carries the message. */ }
+                window.open(`https://t.me/+213774544347?text=${encodeURIComponent(message)}`, '_blank');
+            } else {
+                window.open(`https://wa.me/213774544347?text=${encodeURIComponent(message)}`, '_blank');
+            }
+        };
+
+        sendMainOrder.addEventListener('click', () => sendMainOrderMessage(getMainOrderMessage()));
+        sendMainTelegram.addEventListener('click', () => sendMainOrderMessage(getMainOrderMessage(), true));
+        mainCartToggle.addEventListener('click', () => {
+            mainCartSection.hidden = !mainCartSection.hidden;
+            mainCartToggle.textContent = mainCartSection.hidden ? '🛒 فتح سلة التسوق' : '🛒 إخفاء سلة التسوق';
+            if (!mainCartSection.hidden) mainCartSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+        mainLocation.addEventListener('input', resetMainConfirmation);
+        mainCustomerName.addEventListener('input', resetMainConfirmation);
+        mainCustomerPhone.addEventListener('input', resetMainConfirmation);
+        renderMainCart();
+        const orderConfirmation = {
+            iceCream: { button: document.querySelector('#confirm-ice-cream-order'), review: document.querySelector('#ice-cream-review'), confirmed: false },
+            juices: { button: document.querySelector('#confirm-juice-order'), review: document.querySelector('#juice-review'), confirmed: false },
+            tea: { button: document.querySelector('#confirm-tea-order'), review: document.querySelector('#tea-review'), confirmed: false },
+            crepe: { button: document.querySelector('#confirm-crepe-order'), review: document.querySelector('#crepe-review'), confirmed: false }
+        };
+
+        const resetOrderConfirmation = (category, hasItems) => {
+            const confirmation = orderConfirmation[category];
+            confirmation.confirmed = false;
+            confirmation.button.disabled = !hasItems;
+            confirmation.button.textContent = 'تأكيد الطلبية ومراجعتها';
+            confirmation.review.classList.remove('visible');
+            confirmation.review.textContent = '';
+        };
+        window.nabضCarts = { iceCream: cart, juices: juiceCart, tea: teaCart, crepe: crepeCart, main: mainCart };
+
+        const updateCart = () => {
+            cartItems.innerHTML = '';
+            let total = 0;
+
+            cart.forEach((item, cartKey) => {
+                const row = document.createElement('div');
+                row.className = 'cart-row';
+                row.innerHTML = `<span class="cart-row-name">${item.name}<br><small>${item.flavor}</small></span><input type="number" min="1" value="${item.quantity}" aria-label="كمية ${item.name} ${item.flavor}"><span class="cart-row-price">${item.price * item.quantity} DA</span><button class="remove-item" type="button" aria-label="حذف ${item.name} ${item.flavor}">×</button>`;
+                const quantity = row.querySelector('input');
+                quantity.addEventListener('change', () => {
+                    item.quantity = Math.max(1, Number.parseInt(quantity.value, 10) || 1);
+                    updateCart();
+                });
+                row.querySelector('.remove-item').addEventListener('click', () => {
+                    cart.delete(cartKey);
+                    updateCart();
+                });
+                cartItems.append(row);
+                total += item.price * item.quantity;
+            });
+
+            if (!cart.size) {
+                cartItems.innerHTML = '<p class="cart-empty">السلة فارغة</p>';
+            }
+            cartTotal.textContent = `${total} DA`;
+            resetOrderConfirmation('iceCream', cart.size > 0);
+            [sendOrder, sendTelegram].forEach((button) => { button.disabled = !cart.size || !orderConfirmation.iceCream.confirmed; });
+        };
+
+        cartForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const option = productSelect.selectedOptions[0];
+            const name = option.value;
+            const flavor = flavorSelect.value;
+            const quantity = Math.max(1, Number.parseInt(quantityInput.value, 10) || 1);
+            const cartKey = `${name}|${flavor}`;
+            const item = cart.get(cartKey) || { name, flavor, price: Number(option.dataset.price), quantity: 0 };
+            item.quantity += quantity;
+            cart.set(cartKey, item);
+            updateCart();
+        });
+
+        const updateJuiceSizeLabels = () => {
+            const isMilkshake = juiceProductSelect.value === 'ميلك شايك';
+            Array.from(juiceSizeSelect.options).forEach((option) => {
+                const price = isMilkshake ? option.dataset.milkshakePrice : option.dataset.regularPrice;
+                option.textContent = `${option.value} - ${price} DA`;
+            });
+        };
+
+        const updateJuiceCart = () => {
+            juiceCartItems.innerHTML = '';
+            let total = 0;
+
+            juiceCart.forEach((item, cartKey) => {
+                const row = document.createElement('div');
+                row.className = 'cart-row';
+                row.innerHTML = `<span class="cart-row-name">${item.name}<br><small>${item.size}</small></span><input type="number" min="1" value="${item.quantity}" aria-label="كمية ${item.name} ${item.size}"><span class="cart-row-price">${item.price * item.quantity} DA</span><button class="remove-item" type="button" aria-label="حذف ${item.name} ${item.size}">×</button>`;
+                row.querySelector('input').addEventListener('change', (event) => {
+                    item.quantity = Math.max(1, Number.parseInt(event.target.value, 10) || 1);
+                    updateJuiceCart();
+                });
+                row.querySelector('.remove-item').addEventListener('click', () => {
+                    juiceCart.delete(cartKey);
+                    updateJuiceCart();
+                });
+                juiceCartItems.append(row);
+                total += item.price * item.quantity;
+            });
+
+            if (!juiceCart.size) juiceCartItems.innerHTML = '<p class="cart-empty">السلة فارغة</p>';
+            juiceCartTotal.textContent = `${total} DA`;
+            resetOrderConfirmation('juices', juiceCart.size > 0);
+            [sendJuiceOrder, sendJuiceTelegram].forEach((button) => { button.disabled = !juiceCart.size || !orderConfirmation.juices.confirmed; });
+        };
+
+        juiceProductSelect.addEventListener('change', updateJuiceSizeLabels);
+        juiceCartForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const product = juiceProductSelect.value;
+            const option = juiceSizeSelect.selectedOptions[0];
+            const price = Number(product === 'ميلك شايك' ? option.dataset.milkshakePrice : option.dataset.regularPrice);
+            const quantity = Math.max(1, Number.parseInt(juiceQuantityInput.value, 10) || 1);
+            const cartKey = `${product}|${option.value}`;
+            const item = juiceCart.get(cartKey) || { name: product, size: option.value, price, quantity: 0 };
+            item.quantity += quantity;
+            juiceCart.set(cartKey, item);
+            updateJuiceCart();
+        });
+
+        const getJuiceOrderMessage = () => {
+            let total = 0;
+            const orderLines = ['السلام عليكم، أريد طلبية عصائر:', '', getLocationText('juices')];
+            juiceCart.forEach((item) => {
+                const itemTotal = item.price * item.quantity;
+                orderLines.push(`- ${item.name} (${item.size}): ${item.quantity} × ${item.price} DA = ${itemTotal} DA`);
+                total += itemTotal;
+            });
+            orderLines.push('', `السعر الإجمالي: ${total} DA`);
+            return orderLines.join('\n');
+        };
+
+        const copyJuiceOrderMessage = async () => {
+            try {
+                await navigator.clipboard.writeText(getJuiceOrderMessage());
+            } catch {
+                const textArea = document.createElement('textarea');
+                textArea.value = getJuiceOrderMessage();
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.append(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                textArea.remove();
+            }
+            juiceCopyStatus.textContent = 'تم نسخ الطلب. ألصقيه في المحادثة ثم أرسليه.';
+        };
+
+        sendJuiceOrder.addEventListener('click', () => window.open(`https://wa.me/213774544347?text=${encodeURIComponent(getJuiceOrderMessage())}`, '_blank'));
+        sendJuiceTelegram.addEventListener('click', async () => { await copyJuiceOrderMessage(); window.open(`https://t.me/+213774544347?text=${encodeURIComponent(getJuiceOrderMessage())}`, '_blank'); });
+
+        updateJuiceSizeLabels();
+
+        const updateTeaCart = () => {
+            teaCartItems.innerHTML = '';
+            let total = 0;
+
+            teaCart.forEach((item, cartKey) => {
+                const extras = item.extras.length ? item.extras.join(' و ') : 'بدون إضافات';
+                const row = document.createElement('div');
+                row.className = 'cart-row';
+                row.innerHTML = `<span class="cart-row-name">${item.sugar}<br><small>${item.size} - ${extras}</small></span><input type="number" min="1" value="${item.quantity}" aria-label="كمية الشاي"><span class="cart-row-price">${item.price * item.quantity} DA</span><button class="remove-item" type="button" aria-label="حذف الشاي">×</button>`;
+                row.querySelector('input').addEventListener('change', (event) => {
+                    item.quantity = Math.max(1, Number.parseInt(event.target.value, 10) || 1);
+                    updateTeaCart();
+                });
+                row.querySelector('.remove-item').addEventListener('click', () => {
+                    teaCart.delete(cartKey);
+                    updateTeaCart();
+                });
+                teaCartItems.append(row);
+                total += item.price * item.quantity;
+            });
+
+            if (!teaCart.size) teaCartItems.innerHTML = '<p class="cart-empty">السلة فارغة</p>';
+            teaCartTotal.textContent = `${total} DA`;
+            resetOrderConfirmation('tea', teaCart.size > 0);
+            [sendTeaOrder, sendTeaTelegram].forEach((button) => { button.disabled = !teaCart.size || !orderConfirmation.tea.confirmed; });
+        };
+
+        teaCartForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const option = teaSizeSelect.selectedOptions[0];
+            const extras = [teaLemon.checked ? 'ليمون' : '', teaMint.checked ? 'نعناع' : ''].filter(Boolean);
+            const quantity = Math.max(1, Number.parseInt(teaQuantityInput.value, 10) || 1);
+            const cartKey = `${teaSugarSelect.value}|${option.value}|${extras.join('|')}`;
+            const item = teaCart.get(cartKey) || { sugar: teaSugarSelect.value, size: option.value, extras, price: Number(option.dataset.price), quantity: 0 };
+            item.quantity += quantity;
+            teaCart.set(cartKey, item);
+            updateTeaCart();
+        });
+
+        const getTeaOrderMessage = () => {
+            let total = 0;
+            const orderLines = ['السلام عليكم، أريد طلبية شاي:', '', getLocationText('tea')];
+            teaCart.forEach((item) => {
+                const extras = item.extras.length ? item.extras.join(' و ') : 'بدون إضافات';
+                const itemTotal = item.price * item.quantity;
+                orderLines.push(`- ${item.sugar} (${item.size}، ${extras}): ${item.quantity} × ${item.price} DA = ${itemTotal} DA`);
+                total += itemTotal;
+            });
+            orderLines.push('', `السعر الإجمالي: ${total} DA`);
+            return orderLines.join('\n');
+        };
+
+        const copyTeaOrderMessage = async () => {
+            try {
+                await navigator.clipboard.writeText(getTeaOrderMessage());
+            } catch {
+                const textArea = document.createElement('textarea');
+                textArea.value = getTeaOrderMessage();
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.append(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                textArea.remove();
+            }
+            teaCopyStatus.textContent = 'تم نسخ الطلب. ألصقيه في المحادثة ثم أرسليه.';
+        };
+
+        sendTeaOrder.addEventListener('click', () => window.open(`https://wa.me/213774544347?text=${encodeURIComponent(getTeaOrderMessage())}`, '_blank'));
+        sendTeaTelegram.addEventListener('click', async () => { await copyTeaOrderMessage(); window.open(`https://t.me/+213774544347?text=${encodeURIComponent(getTeaOrderMessage())}`, '_blank'); });
+
+        const updateCrepeCart = () => {
+            crepeCartItems.innerHTML = '';
+            let total = 0;
+
+            crepeCart.forEach((item, cartKey) => {
+                const row = document.createElement('div');
+                row.className = 'cart-row';
+                row.innerHTML = `<span class="cart-row-name">${item.name}</span><input type="number" min="1" value="${item.quantity}" aria-label="كمية ${item.name}"><span class="cart-row-price">${item.price * item.quantity} DA</span><button class="remove-item" type="button" aria-label="حذف ${item.name}">×</button>`;
+                row.querySelector('input').addEventListener('change', (event) => {
+                    item.quantity = Math.max(1, Number.parseInt(event.target.value, 10) || 1);
+                    updateCrepeCart();
+                });
+                row.querySelector('.remove-item').addEventListener('click', () => {
+                    crepeCart.delete(cartKey);
+                    updateCrepeCart();
+                });
+                crepeCartItems.append(row);
+                total += item.price * item.quantity;
+            });
+
+            if (!crepeCart.size) crepeCartItems.innerHTML = '<p class="cart-empty">السلة فارغة</p>';
+            crepeCartTotal.textContent = `${total} DA`;
+            resetOrderConfirmation('crepe', crepeCart.size > 0);
+            [sendCrepeOrder, sendCrepeTelegram].forEach((button) => { button.disabled = !crepeCart.size || !orderConfirmation.crepe.confirmed; });
+        };
+
+        crepeCartForm.addEventListener('submit', (event) => {
+            event.preventDefault();
+            const option = crepeProductSelect.selectedOptions[0];
+            const quantity = Math.max(1, Number.parseInt(crepeQuantityInput.value, 10) || 1);
+            const item = crepeCart.get(option.value) || { name: option.value, price: Number(option.dataset.price), quantity: 0 };
+            item.quantity += quantity;
+            crepeCart.set(option.value, item);
+            updateCrepeCart();
+        });
+
+        const getCrepeOrderMessage = () => {
+            let total = 0;
+            const orderLines = ['السلام عليكم، أريد طلبية كريب:', '', getLocationText('crepe')];
+            crepeCart.forEach((item) => {
+                const itemTotal = item.price * item.quantity;
+                orderLines.push(`- ${item.name}: ${item.quantity} × ${item.price} DA = ${itemTotal} DA`);
+                total += itemTotal;
+            });
+            orderLines.push('', `السعر الإجمالي: ${total} DA`);
+            return orderLines.join('\n');
+        };
+
+        const copyCrepeOrderMessage = async () => {
+            try {
+                await navigator.clipboard.writeText(getCrepeOrderMessage());
+            } catch {
+                const textArea = document.createElement('textarea');
+                textArea.value = getCrepeOrderMessage();
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.append(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                textArea.remove();
+            }
+            crepeCopyStatus.textContent = 'تم نسخ الطلب. ألصقيه في المحادثة ثم أرسليه.';
+        };
+
+        sendCrepeOrder.addEventListener('click', () => window.open(`https://wa.me/213774544347?text=${encodeURIComponent(getCrepeOrderMessage())}`, '_blank'));
+        sendCrepeTelegram.addEventListener('click', async () => { await copyCrepeOrderMessage(); window.open(`https://t.me/+213774544347?text=${encodeURIComponent(getCrepeOrderMessage())}`, '_blank'); });
+
+        const getOrderMessage = () => {
+            let total = 0;
+            const orderLines = ['السلام عليكم، أريد طلبية مثلجات:', '', getLocationText('iceCream')];
+
+            cart.forEach((item) => {
+                const itemTotal = item.price * item.quantity;
+                orderLines.push(`- ${item.name} (${item.flavor}): ${item.quantity} × ${item.price} DA = ${itemTotal} DA`);
+                total += itemTotal;
+            });
+
+            orderLines.push('', `السعر الإجمالي: ${total} DA`);
+            return orderLines.join('\n');
+        };
+
+        const confirmOrder = (category, message) => {
+            const location = document.querySelector(`#${locationInputIds[category]}`);
+            if (!location.value.trim()) {
+                location.focus();
+                location.setCustomValidity('أدخل رابط Google Maps أو اكتب عنوان الموقع يدويًا.');
+                location.reportValidity();
+                location.setCustomValidity('');
+                return;
+            }
+            const confirmation = orderConfirmation[category];
+            confirmation.confirmed = true;
+            confirmation.review.textContent = `مراجعة الطلبية:\n${message}`;
+            confirmation.review.classList.add('visible');
+            confirmation.button.textContent = 'تم تأكيد الطلبية';
+            const sendButtons = {
+                iceCream: [sendOrder, sendTelegram],
+                juices: [sendJuiceOrder, sendJuiceTelegram],
+                tea: [sendTeaOrder, sendTeaTelegram],
+                crepe: [sendCrepeOrder, sendCrepeTelegram]
+            };
+            sendButtons[category].forEach((button) => { button.disabled = false; });
+        };
+
+        orderConfirmation.iceCream.button.addEventListener('click', () => confirmOrder('iceCream', getOrderMessage()));
+        orderConfirmation.juices.button.addEventListener('click', () => confirmOrder('juices', getJuiceOrderMessage()));
+        orderConfirmation.tea.button.addEventListener('click', () => confirmOrder('tea', getTeaOrderMessage()));
+        orderConfirmation.crepe.button.addEventListener('click', () => confirmOrder('crepe', getCrepeOrderMessage()));
+
+
+        sendOrder.addEventListener('click', () => {
+            window.open(`https://wa.me/213774544347?text=${encodeURIComponent(getOrderMessage())}`, '_blank');
+        });
+
+        const copyOrderMessage = async () => {
+            const message = getOrderMessage();
+
+            try {
+                await navigator.clipboard.writeText(message);
+            } catch {
+                const textArea = document.createElement('textarea');
+                textArea.value = message;
+                textArea.style.position = 'fixed';
+                textArea.style.opacity = '0';
+                document.body.append(textArea);
+                textArea.select();
+                document.execCommand('copy');
+                textArea.remove();
+            }
+
+            copyStatus.textContent = 'تم نسخ الطلب. ألصقيه في المحادثة ثم أرسليه.';
+        };
+
+        sendTelegram.addEventListener('click', async () => {
+            await copyOrderMessage();
+            window.open(`https://t.me/+213774544347?text=${encodeURIComponent(getOrderMessage())}`, '_blank');
+        });
+
+
+        document.querySelector('#ice-cream-link').addEventListener('click', (event) => {
+            event.preventDefault();
+            menuSection.hidden = true;
+            flavorsSection.hidden = false;
+            flavorsSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        document.querySelector('#back-to-menu').addEventListener('click', () => {
+            flavorsSection.hidden = true;
+            menuSection.hidden = false;
+            menuSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        document.querySelector('#juices-link').addEventListener('click', (event) => {
+            event.preventDefault();
+            menuSection.hidden = true;
+            juicesSection.hidden = false;
+            juicesSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        document.querySelector('#back-from-juices').addEventListener('click', () => {
+            juicesSection.hidden = true;
+            menuSection.hidden = false;
+            menuSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        document.querySelector('#tea-link').addEventListener('click', (event) => {
+            event.preventDefault();
+            menuSection.hidden = true;
+            teaSection.hidden = false;
+            teaSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        document.querySelector('#back-from-tea').addEventListener('click', () => {
+            teaSection.hidden = true;
+            menuSection.hidden = false;
+            menuSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        document.querySelector('#crepe-link').addEventListener('click', (event) => {
+            event.preventDefault();
+            menuSection.hidden = true;
+            crepeSection.hidden = false;
+            crepeSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        document.querySelector('#back-from-crepe').addEventListener('click', () => {
+            crepeSection.hidden = true;
+            menuSection.hidden = false;
+            menuSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        document.querySelectorAll('[data-language]').forEach((language) => {
+            language.addEventListener('click', () => {
+                currentLanguage.textContent = language.dataset.language;
+            });
+        });
+    </script>
+    <script>
+        (() => {
+            const configured = supabaseUrl && supabaseAnonKey && !supabaseUrl.includes('ضع-') && !supabaseAnonKey.includes('ضع-');
+            if (!configured) return;
+            const saveOrder = async (category, nameId, phoneId, statusId) => {
+                const name = document.querySelector(`#${nameId}`).value.trim();
+                const phone = document.querySelector(`#${phoneId}`).value.trim();
+                const cart = window.nabضCarts[category];
+                const status = document.querySelector(`#${statusId}`);
+                if (!name || !phone || !cart.size) { status.textContent = 'أدخل الاسم ورقم الهاتف وأضف منتجًا أولًا.'; return; }
+                const location = document.querySelector(`#${locationInputIds[category]}`).value.trim();
+                const items = Array.from(cart.values()).map((item) => ({ ...item }));
+                const total = items.reduce((sum, item) => sum + item.price * item.quantity, 0);
+                try {
+                    const { error } = await supabaseClient.from('orders').insert({ customer_name: name, phone, category, location, items, total, created_at: new Date().toISOString() });
+                    if (error) throw error;
+                    status.textContent = 'تم حفظ الطلب بنجاح.';
+                } catch (error) { status.textContent = 'تعذر حفظ الطلب. تحقق من إعداد Supabase وسياسات جدول orders.'; console.error(error); }
+            };
+            [['main', 'main-customer-name', 'main-customer-phone', 'main-copy-status'], ['iceCream', 'ice-cream-customer-name', 'ice-cream-customer-phone', 'copy-status'], ['juices', 'juice-customer-name', 'juice-customer-phone', 'juice-copy-status'], ['tea', 'tea-customer-name', 'tea-customer-phone', 'tea-copy-status'], ['crepe', 'crepe-customer-name', 'crepe-customer-phone', 'crepe-copy-status']].forEach(([category, nameId, phoneId, statusId]) => document.querySelector(`#${statusId}`).closest('.shopping-cart').querySelectorAll('.send-order, .alternative-order').forEach((button) => button.addEventListener('click', () => saveOrder(category, nameId, phoneId, statusId))));
+        })();
+    </script>
+</body>
+</html>
